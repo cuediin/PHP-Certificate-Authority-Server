@@ -1,0 +1,7 @@
+This has been built assuming an Ubuntu 10.04LTS base system with the following
+packages installed: 
+
+php5
+libapache2-mod-php5
+apache2
+putty-tools
