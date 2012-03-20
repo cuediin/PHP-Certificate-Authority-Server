@@ -101,7 +101,14 @@ $config=$_SESSION['config'];
 	return $serial;
 }
 
+function get_KeyValue($haystack = array(), $needle = '', $default_value = false) {
+	if (!is_array($haystack) or count($haystack) == 0 or $needle == '') {
+		return $default_value;
+	}
+	if (isset($haystack[$needle])) {
+		return $haystack[$needle];
+	} else {
+		return $default_value;
+	}
 
-
-
-?>
+}
