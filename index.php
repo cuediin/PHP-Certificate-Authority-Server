@@ -8,18 +8,18 @@ include("./include/functions_cert.php");
 include("./include/functions_key.php");
 include("./include/functions_ca.php");
 include("./include/functions_misc.php");
-
+$_SESSION['cwd'] = dirname(__FILE__);
 // Various IF statements to check current status of the PHP CA
 if ( ($_REQUEST['menuoption']=='menu') && ($_SESSION['my_ca']=='create_ca_2' )) {
   $menuoption='create_ca_1';
   }
 else
-if ( ($config['certstore_path']=='NOT_DEFINED') && ($_POST['menuoption'] != 'setup_certstore_2') ) {
-  $menuoption='setup_certstore_1';
+if ( ($config['certstore_path']=='NOT_DEFINED') && ($_POST['menuoption'] != 'setup_certstore') ) {
+  $menuoption='setup_certstore_form';
 }
 else
-if ( ($_POST['menuoption'] == 'setup_certstore_2') ) {
-  $menuoption='setup_certstore_2';
+if ( ($_POST['menuoption'] == 'setup_certstore') ) {
+  $menuoption='setup_certstore';
 }
 else
 // Checks for creating a CA
@@ -214,14 +214,14 @@ $_SESSION['config']=$config;
 				printFooter();
 			break;
 
-			case "setup_certstore_1":
+			case "setup_certstore_form":
 			printHeader('Setup CA Certificate Store');
-			setup_certstore_1();
+			setup_certstore_form();
 			break;
 			
-			case "setup_certstore_2":
+			case "setup_certstore":
 			printHeader('Setup CA Certificate Store');
-			setup_certstore_2($_POST['certstore_path']);
+			setup_certstore($_POST['certstore_path']);
 			break;			
 			
 			case "create_ca_1":

@@ -3,14 +3,14 @@
 // The PHP file which stores all the functions referenced by index.php
 //
 
-function setup_certstore_1() {
+function setup_certstore_form() {
 
 ?>
 <h1>PHP-CA Configure Certificate Store</h1>
 <p>
 <b>Certificate Store Location</b><br/>
 <form action="index.php" method="post">
-<input type="hidden" name="menuoption" value="setup_certstore_2"/>
+<input type="hidden" name="menuoption" value="setup_certstore"/>
 <table  style="width: 400px;">
 <tr><th>Please Enter Absolute Path for Cert Store: (eg. /var/www/certstore)</th></tr>
 <tr><td><input type="text" name="certstore_path" value="/var/www/certstore" size="30"/>
@@ -21,13 +21,27 @@ function setup_certstore_1() {
 <?PHP
 }
 
-function setup_certstore_2($my_certstore_path) {
-$my_settings=file_get_contents('./include/settings.php') or die('Fatal: Unable to open ./include/settings.php');
-if (!is_dir($my_certstore_path))
+function setup_certstore($my_certstore_path) {
+if (!is_writable($my_certstore_path) ) {
+  $is_writable = FALSE;
+  print "You do not have write permissions to the file $my_certstore_path<BR>One way around this is in Linux is to use<BR>chown -R www-data:www-data ".dirname($my_certstore_path)."<BR>\n<BR>\n";
+  exit();
+  }
+if (!is_dir($my_certstore_path) && $is_writable)
   mkdir($my_certstore_path,0700,true) or die('Fatal: Unable to create Certificate Store folder'.$my_certstore_path);
-if (substr($my_certstore_path,-1) != '/') $my_certstore_path = $my_certstore_path.'/';
-$my_settings = str_replace('NOT_DEFINED',$my_certstore_path,$my_settings) or die('Unable to update variable holding settings string'); 
-file_put_contents('./include/settings.php',$my_settings) or die('Fatal: Unable to write ./include/settings.php');
+
+$is_writable = TRUE;
+if (!is_writable('./include/settings.php') ){
+  $is_writable = FALSE;
+  print "You do not have write permissions to the file ".$_SESSION['cwd']."/include/settings.php<BR>One way around this in Linux is to use<BR>chown -R www-data:www-data ".$_SESSION['cwd']."/include<BR>\n<BR>\n";
+  exit();
+  } 
+if ($is_writable) {
+  $my_settings=file_get_contents('./include/settings.php') or die('Fatal: Unable to open ./include/settings.php');
+  if (substr($my_certstore_path,-1) != '/') $my_certstore_path = $my_certstore_path.'/';
+  $my_settings = str_replace('NOT_DEFINED',$my_certstore_path,$my_settings) or die('Unable to update variable holding settings string'); 
+  file_put_contents('./include/settings.php',$my_settings) or die('Fatal: Unable to write ./include/settings.php');
+  }
 ?>
 <h1>Initial Setup Complete</h1>
 <h1>Now Create a Certificate Authority</h1>
