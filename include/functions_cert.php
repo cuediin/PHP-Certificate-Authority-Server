@@ -201,10 +201,10 @@ $my_index_handle = fopen($config['index'], "r") or die('Unable to open Index fil
 $pattern = '/(\D)\t(\d+[Z])\t(\d+[Z])?\t([a-z0-9]+)\t(\D+)\t(.+)/'; 
 while (!feof($my_index_handle)) {
    $this_line = rtrim(fgets($my_index_handle));
-   preg_match($pattern,$this_line,$matches);
-   if ($matches[1] == 'V') {
-     print "<option value=\"".$matches[4]."\">".$matches[6]."</option>\n";
-     }
+   if (preg_match($pattern,$this_line,$matches))
+     if ($matches[1] == 'V') {
+       print "<option value=\"".$matches[4]."\">".$matches[6]."</option>\n";
+       }
 }
 fclose($my_index_handle);
 ?>
@@ -235,13 +235,13 @@ $pattern = '/(\D)\t(\d+[Z])\t(\d+[Z])?\t([a-z0-9]+)\t(\D+)\t(.+)/';
 $my_index_handle = fopen($config['index'], "r") or die('Unable to open Index file for reading');
 while (!feof($my_index_handle)) {
    $this_line = rtrim(fgets($my_index_handle));
-   preg_match($pattern,$this_line,$matches);  
-   if ( ($matches[1] == 'V') && ($matches[4] == $my_serial ) )
-     {
-	 $my_valid_to=$matches[2];
-	 $my_index_name=$matches[6];
-	 print "Found ".$my_serial." ".$my_index_name."<BR>\n";
-	 }
+   if (preg_match($pattern,$this_line,$matches))
+     if ( ($matches[1] == 'V') && ($matches[4] == $my_serial ) )
+       {
+	   $my_valid_to=$matches[2];
+	   $my_index_name=$matches[6];
+	   print "Found ".$my_serial." ".$my_index_name."<BR>\n";
+	   }
 }
 fclose($my_index_handle);
 $orig_index_line="V\t".$my_valid_to."\t\t".$my_serial."\tunknown\t".$my_index_name;

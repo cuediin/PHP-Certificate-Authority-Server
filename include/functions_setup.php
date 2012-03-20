@@ -4,7 +4,7 @@
 //
 
 function setup_certstore_form() {
-
+$this_certstore = dirname($_SESSION['cwd'])."/certstore";
 ?>
 <h1>PHP-CA Configure Certificate Store</h1>
 <p>
@@ -13,7 +13,7 @@ function setup_certstore_form() {
 <input type="hidden" name="menuoption" value="setup_certstore"/>
 <table  style="width: 400px;">
 <tr><th>Please Enter Absolute Path for Cert Store: (eg. /var/www/certstore)</th></tr>
-<tr><td><input type="text" name="certstore_path" value="/var/www/certstore" size="30"/>
+<tr><td><input type="text" name="certstore_path" value="<?PHP print $this_certstore;?>" size="30"/>
 <tr><td><input type="submit" value="Submit Certificate Store"/>
 </table>
 </form>
@@ -46,7 +46,7 @@ if ($is_writable) {
 <h1>Initial Setup Complete</h1>
 <h1>Now Create a Certificate Authority</h1>
 <form action="index.php" method="post">
-<input type="hidden" name="menuoption" value="menu"/>
+<input type="hidden" name="menuoption" value="create_ca_form"/>
 <input type="hidden" name="ca_name" value="zzCREATEZZnewZZ"/>
 <input type="submit" value="Create a Certificate Authority"/>
 </form>

@@ -93,14 +93,14 @@ $my_details=openssl_csr_get_subject($my_csr);
 $my_public_key_details=openssl_pkey_get_details(openssl_csr_get_public_key($my_csr));
 ?>
 <table  style="width: 400px;">
-<tr><th width=100>Common Name (eg www.golf.local)</th><td><?PHP print $my_details[CN];?></td></tr>
-<tr><th>Contact Email Address</th><td><?PHP print $my_details[emailAddress];?></td></tr>
-<tr><th>Organizational Unit Name</th><td><?PHP print $my_details[OU];?></td></tr>
-<tr><th>Organization Name</th><td><?PHP print $my_details[O];?></td></tr>
-<tr><th>City</th><td><?PHP print $my_details[L];?></td></tr>
-<tr><th>State</th><td><?PHP print $my_details[ST];?></td></tr>
-<tr><th>Country</th><td><?PHP print $my_details[C];?></td></tr>
-<tr><th>Key Size</th><td><?PHP print $my_public_key_details[bits];?></td></tr>
+<tr><th width=100>Common Name (eg www.golf.local)</th><td><?PHP print $my_details['CN'];?></td></tr>
+<tr><th>Contact Email Address</th><td><?PHP print $my_details['emailAddress'];?></td></tr>
+<tr><th>Organizational Unit Name</th><td><?PHP print $my_details['OU'];?></td></tr>
+<tr><th>Organization Name</th><td><?PHP print $my_details['O'];?></td></tr>
+<tr><th>City</th><td><?PHP print $my_details['L'];?></td></tr>
+<tr><th>State</th><td><?PHP print $my_details['ST'];?></td></tr>
+<tr><th>Country</th><td><?PHP print $my_details['C'];?></td></tr>
+<tr><th>Key Size</th><td><?PHP print $my_public_key_details['bits'];?></td></tr>
 </table>
 <?PHP
 print "<h1>Client CSR and Key - Generated successfully</h1>";

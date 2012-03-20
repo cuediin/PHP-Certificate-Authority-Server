@@ -23,9 +23,9 @@ $my_valid_cert=0;
 $my_index_handle = fopen($config['index'], "r") or die('Unable to open Index file for reading');
 while (!feof($my_index_handle)) {
    $this_line = rtrim(fgets($my_index_handle));
-   preg_match($pattern,$this_line,$matches); 
-   if ( ($matches[1] == 'V') && ($matches[6] == $my_name ) )
-     $my_valid_cert=1;
+   if (preg_match($pattern,$this_line,$matches))
+     if ( ($matches[1] == 'V') && ($matches[6] == $my_name ) )
+       $my_valid_cert=1;
 }
 fclose($my_index_handle);
 return $my_valid_cert;

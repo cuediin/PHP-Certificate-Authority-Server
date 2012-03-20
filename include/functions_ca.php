@@ -1,7 +1,6 @@
 <?PHP
 function switch_ca() {
 session_unset();
-printHeader("PHP-CA Switch CA");
 ?>
 <h1>PHP-CA Switch CA</h1>
 <?PHP
@@ -36,31 +35,14 @@ while (($file = readdir($dh)) !== false) {
 }
 
 
-function renewCert_form(){
-$config=$_SESSION['config'];
-?>
-<p>
-<b>Re-create CA Certificate</b><br/>
-<form action="index.php" method="post">
-<input type="hidden" name="menuoption" value="renewCert"/>
-<table  style="width: 400px;">
-<tr><td width=100>CA Passphrase:<td><input type="password" name="pass"/>
-<tr><td><td><input type="submit" value="Reissue CA Cert"/>
-</table>
-</form>
-</p>
-<?PHP
-}
-
-
-function create_new_CA_get_options() {
-$_SESSION['my_ca']='create_ca_2';
+function create_ca_form() {
+$_SESSION['my_ca']='create_ca';
 ?>
 <p>
 <b>Create a new Root Certificate Authority</b><br/>
 <form action="index.php" method="post">
 <input type="hidden" name="create_ca" value="create_ca"/>
-<input type="hidden" name="menuoption" value="create_ca_2"/>
+<input type="hidden" name="menuoption" value="create_ca"/>
 <input type="hidden" name="device_type" value="ca_cert"/>
 
 <table  style="width: 400px;">
@@ -83,7 +65,7 @@ $_SESSION['my_ca']='create_ca_2';
 }
 
 
-function create_ca_post($my_certstore_path, $my_device_type,$my_cert_dn,$my_passphrase) {
+function create_ca($my_certstore_path, $my_device_type,$my_cert_dn,$my_passphrase) {
 
 //if (!is_dir($my_certstore_path.$my_cert_dn['commonName']))
   create_cert_store($my_certstore_path, $my_cert_dn['commonName']);
