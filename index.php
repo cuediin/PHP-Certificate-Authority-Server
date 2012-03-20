@@ -26,37 +26,28 @@ if (isset($_POST['ca_name'])) {
 
 // Various IF statements to check current status of the PHP CA
 //Initial page when nothing is defined and we need to create the certificate store
-if ( ($config['certstore_path']=='NOT_DEFINED') && !($page_variables['menuoption'] == 'setup_certstore') ) {
-  $page_variables['menuoption']='setup_certstore_form';
-  $menuoption='setup_certstore_form';
-}
-else
-// Checks for creating a CA
-if ( ($page_variables['menuoption']=='menu') && !($page_variables['ca_name'] === FALSE)   ) {
-  if ($page_variables['ca_name']=='zzCREATEZZnewZZ') {
-    $menuoption='create_ca_form';
-  }
-  // If not creating a CA set current CA to requested CA
-  else {
-    $menuoption='menu';
-    $_SESSION['my_ca'] = $page_variables['ca_name'];
-  }
-}
-else
+if (get_KeyValue($config, 'certstore_path') == 'NOT_DEFINED' && get_KeyValue($page_variables, 'menuoption') != 'setup_certstore') {
+    $page_variables['menuoption'] = 'setup_certstore_form';
+    $menuoption='setup_certstore_form';
+} elseif (get_KeyValue($page_variables, 'menuoption') =='menu' && get_KeyValue($page_variables, 'ca_name') !== FALSE) {
+    // Checks for creating a CA
+    if ($page_variables['ca_name'] == 'zzCREATEZZnewZZ') {
+        $menuoption='create_ca_form';
+    } else {
+        // If not creating a CA set current CA to requested CA
+        $menuoption = 'menu';
+        $_SESSION['my_ca'] = $page_variables['ca_name'];
+    }
+} elseif ((get_KeyValue($page_variables, 'menuoption') === FALSE && !isset($_SESSION['my_ca'])) || (!isset($_SESSION['my_ca']) && get_KeyValue($page_variables, 'menuoption') != 'setup_certstore' && get_KeyValue($page_variables, 'menuoption') != 'create_ca_form') ) {
 //Covers First Time Page accessed or No parameters for my_ca
-if ( (($page_variables['menuoption'] === FALSE ) && !isset($_SESSION['my_ca']) ) || (!isset($_SESSION['my_ca']) && !($page_variables['menuoption'] == 'setup_certstore') && !($page_variables['menuoption'] == 'create_ca_form') ) ) {
-  $menuoption='switchca';
-}
-else
+  $menuoption = 'switchca';
+} elseif (get_KeyValue($page_variables, 'menuoption') === FALSE && isset($_SESSION['my_ca']) ) {
 // Checks to see if there is an existing session CA configured, even if the menuoption parameter is empty
-if (($page_variables['menuoption'] === FALSE ) && isset($_SESSION['my_ca']) ) {
-  $menuoption='menu';
-}
-else
+  $menuoption = 'menu';
+} elseif (get_KeyValue($page_variables, 'menuoption') !== FALSE) {
   // Covers off any other valid options
-if (!($page_variables['menuoption'] === FALSE ) ) {
   $menuoption=$page_variables['menuoption'];
-  }
+}
 
 // if the session isnt configured for the config area, create a blank config array inside the session before importing the session variables into the
 // config array
