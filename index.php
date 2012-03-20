@@ -1,5 +1,7 @@
 <?PHP
-session_start();
+if (session_id() === '') {
+    session_start();
+}
 include("./include/settings.php");
 include("./include/functions_setup.php");
 include("./include/functions_layout.php");
