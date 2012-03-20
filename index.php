@@ -51,8 +51,6 @@ if (get_KeyValue($config, 'certstore_path') == 'NOT_DEFINED' && get_KeyValue($pa
 
 // if the session isnt configured for the config area, create a blank config array inside the session before importing the session variables into the
 // config array
-//print "here $menuoption";
-//include("./include/settings.php");
 if (!isset($_SESSION['config'])) {
     $_SESSION['config']=array();
 }
