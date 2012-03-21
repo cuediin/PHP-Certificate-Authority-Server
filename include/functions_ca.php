@@ -149,6 +149,20 @@ sign_csr($my_passphrase,$my_csrfile,$my_days,$my_device_type);
 function download_crl_form(){
 $config=$_SESSION['config'];
 $this_ca=$_SESSION['my_ca'];
+
+//Sign an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
+$valid_files=0;
+$dh = opendir($config['crl_path']) or die('Unable to open crl path');
+while (($file = readdir($dh)) !== false) {
+	if ( ($file !== ".htaccess") && is_file($config['crl_path'].$file) )  {
+	  if (!is_file($config['crl_path'].$file) ) {
+	    $valid_files++;
+	  }
+	}
+}
+closedir($dh);
+
+if ($valid_files) {
 ?>
 <p>
 <b>Download a CRL</b><br/>
@@ -177,6 +191,9 @@ while (($file = readdir($dh)) !== false) {
 </form>
 </p>
 <?PHP
+}
+else 
+  print "<b> No Valid CRLs are available to download.</b>\n";
 }
 
 function download_crl($this_crl,$crl_ext,$crl_filename) {
