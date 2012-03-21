@@ -1,6 +1,6 @@
 <?PHP
 if (session_id()==='') {session_start();}
-$config['certstore_path']="NOT_DEFINED";
+$config['certstore_path']="/var/www/htmlroot/dev/certstore/";
 if (isset($_SESSION['config']) and isset($_SESSION['my_ca']) )
   $config['ca_path'] = $config['certstore_path'].$_SESSION['my_ca']."/";
 else
