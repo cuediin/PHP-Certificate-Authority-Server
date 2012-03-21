@@ -44,7 +44,7 @@ if (get_KeyValue($config, 'certstore_path') == 'NOT_DEFINED' && get_KeyValue($pa
         $menuoption = 'menu';
         $_SESSION['my_ca'] = $page_variables['ca_name'];
     }
-} elseif ((get_KeyValue($page_variables, 'menuoption') === FALSE && !isset($_SESSION['my_ca'])) || (!isset($_SESSION['my_ca']) && get_KeyValue($page_variables, 'menuoption') != 'setup_certstore' && get_KeyValue($page_variables, 'menuoption') != 'create_ca_form') ) {
+} elseif ((get_KeyValue($page_variables, 'menuoption') === FALSE && !isset($_SESSION['my_ca'])) || (!isset($_SESSION['my_ca']) && get_KeyValue($page_variables, 'menuoption') != 'setup_certstore' && get_KeyValue($page_variables, 'menuoption') != 'create_ca_form' && get_KeyValue($page_variables, 'menuoption') != 'delete_ca_form' && get_KeyValue($page_variables, 'menuoption') != 'delete_ca') ) {
 
 
 //Covers First Time Page accessed or No parameters for my_ca

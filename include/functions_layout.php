@@ -55,6 +55,7 @@ print "<li><a href=\"#\">CA Functions</a>\n";
 print "<ul>\n";
 print "<li><a href=\"?menuoption=switchca\">Switch to a different CA</a></li>\n";
 print "<li><a href=\"?menuoption=download_crl_form\">Download CRL</a></li>\n";
+print "<li><a href=\"?menuoption=delete_ca_form\">Delete CA</a></li>\n";
 print "</ul>\n</li>\n";
 print "</ul>\n";
 print "<script type='text/javascript'>\n$(function() {\n$('.nav').droppy({trigger: 'hover'},{speed: 500});});\n</script>\n";
