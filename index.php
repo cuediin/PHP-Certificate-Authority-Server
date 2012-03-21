@@ -24,28 +24,43 @@ if (isset($_POST['ca_name'])) {
     $page_variables['ca_name'] = $_POST['ca_name'];   
 }
 
+
 // Various IF statements to check current status of the PHP CA
 //Initial page when nothing is defined and we need to create the certificate store
 if (get_KeyValue($config, 'certstore_path') == 'NOT_DEFINED' && get_KeyValue($page_variables, 'menuoption') != 'setup_certstore') {
     $page_variables['menuoption'] = 'setup_certstore_form';
     $menuoption='setup_certstore_form';
 } elseif (get_KeyValue($page_variables, 'menuoption') =='menu' && get_KeyValue($page_variables, 'ca_name') !== FALSE) {
+
+
     // Checks for creating a CA
+
     if ($page_variables['ca_name'] == 'zzCREATEZZnewZZ') {
         $menuoption='create_ca_form';
     } else {
+
         // If not creating a CA set current CA to requested CA
+
         $menuoption = 'menu';
         $_SESSION['my_ca'] = $page_variables['ca_name'];
     }
 } elseif ((get_KeyValue($page_variables, 'menuoption') === FALSE && !isset($_SESSION['my_ca'])) || (!isset($_SESSION['my_ca']) && get_KeyValue($page_variables, 'menuoption') != 'setup_certstore' && get_KeyValue($page_variables, 'menuoption') != 'create_ca_form') ) {
+
+
 //Covers First Time Page accessed or No parameters for my_ca
+
   $menuoption = 'switchca';
 } elseif (get_KeyValue($page_variables, 'menuoption') === FALSE && isset($_SESSION['my_ca']) ) {
+
+
 // Checks to see if there is an existing session CA configured, even if the menuoption parameter is empty
+
   $menuoption = 'menu';
 } elseif (get_KeyValue($page_variables, 'menuoption') !== FALSE) {
+
+
   // Covers off any other valid options
+
   $menuoption=$page_variables['menuoption'];
 }
 
@@ -54,6 +69,8 @@ if (get_KeyValue($config, 'certstore_path') == 'NOT_DEFINED' && get_KeyValue($pa
 if (!isset($_SESSION['config'])) {
     $_SESSION['config']=array();
 }
+
+
 
 if (isset($_POST['device_type'])) {
     $config['x509_extensions'] = $_POST['device_type'];
@@ -243,9 +260,38 @@ switch ($menuoption) {
         create_ca($config['certstore_path'], $_POST['device_type'],$_POST['cert_dn'],$_POST['passphrase']);  
     break;
 
-    default:
+	case "delete_ca_form":
+		printHeader('Delete a CA');
+		delete_ca_form();
+	break;
+
+	case "delete_ca":
+		$delete_check['errors']=FALSE;
+		$delete_check['valid_text']=TRUE;
+  		$delete_check['valid_ca_name']=TRUE;
+		if (!($_POST['confirm_text'] === 'DELETEME')) {
+    	  $delete_check['errors']=TRUE;
+		  $delete_check['valid_text']=FALSE;
+		  }
+		if ($page_variables['ca_name'] === 'zzzDELETECAzzz') {
+    	  $delete_check['errors']=TRUE;
+		  $delete_check['valid_ca_name']=FALSE;
+		  }
+		if ($delete_check['errors']) {
+		  delete_ca_form($delete_check);
+		  exit();
+		  }
+ 	    include("./include/settings.php");
+		$_SESSION['config']=$config;
+		printHeader('Delete a CA');
+		delete_ca($config['certstore_path'],$page_variables['ca_name']);  
+	break;
+
+	default:
         printHeader("Unknown area");
-        print "Unknown area: " . htmlspecialchars($_REQUEST['area']);
+        print "Unknown menuoption.";
         printFooter();
     break;
 }
+
+?>
