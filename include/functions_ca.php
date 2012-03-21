@@ -34,6 +34,70 @@ while (($file = readdir($dh)) !== false) {
 <?PHP
 }
 
+function delete_ca_form(&$my_errors=array('errors' => FALSE)) {
+session_unset();
+?>
+<h1>PHP-CA Delete CA</h1>
+<?PHP
+include("./include/settings.php");
+$dh = opendir($config['certstore_path']) or die('Fatal: Unable to opendir Certificate Store.');
+if ($my_errors['errors']) {
+  if (!$my_errors['valid_text'])
+    print "<b><font color='red'> Error. Please enter the correct confirmation text. DELETEME</font><BR></b>\n\n";
+  if (!$my_errors['valid_ca_name'])
+    print "<b><font color='red'> Error. Please select a valid certificate authority</font><BR></b>\n\n";
+  }
+	
+?>
+<p>
+<b>Delete a certificate authority</b><br/>
+This is NON REVERSIBLE!!
+You will not be prompted any further once you enter the details and click submit!!
+<form action="index.php" method="post">
+<input type="hidden" name="menuoption" value="delete_ca"/>
+<table style="width: 350px;">
+<tr><td>Please type DELETEME<BR>all one word.<td><input type="text" name="confirm_text" value="XXXX">
+<tr><td>Certificate Authority:<td><select name="ca_name" rows="6">
+<option value="zzzDELETECAzzz">--- Select a CA
+<?
+while (($file = readdir($dh)) !== false) {
+//	if (substr($file, -4) == ".csr") {
+	if ( is_dir($config['certstore_path'].$file) && ($file != '.') && ($file != '..') ) {
+		print "<option>$file";
+	}
+}
+?>
+</select></tr>
+<tr><td><td><input type="submit" value="Submit CA to delete"/>
+</table>
+</form>
+</p>
+<?PHP
+}
+
+function rrmdir($dir) {
+    if (is_dir($dir)) {
+      $objects = scandir($dir);
+      foreach ($objects as $object) {
+        if ($object != "." && $object != "..") {
+          if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+        }
+      }
+      reset($objects);
+      rmdir($dir);
+    }
+  }
+
+function delete_ca($my_certstore,$my_ca_name){
+//$this_dir = $my_certstore.htmlspecialchars($my_ca_name);
+$this_dir = $my_certstore.$my_ca_name;
+if (is_dir($this_dir)) {
+  rrmdir($this_dir);
+  print "<h2> Certificate Authority $my_ca_name Deleted!!</h2>";
+  }
+else
+  print "Unable to delete folder. Please check file permissions.";  
+}
 
 function create_ca_form() {
 $_SESSION['my_ca']='create_ca';
