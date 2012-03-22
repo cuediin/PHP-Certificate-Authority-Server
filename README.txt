@@ -1,5 +1,5 @@
-This software is Open Source.
-Written by myself Cuediin.
+This software is Open Source/ Freeware.
+Written by myself Cuediin and cleanup assistance from JonTheNiceGuy
 
 I have used some code borrowed from droppy from the Jquery forums for a simple menu system.
 On top of this I have use some functions from various users from php.net. I will try and go through them so that I can properly acknowledge them.
