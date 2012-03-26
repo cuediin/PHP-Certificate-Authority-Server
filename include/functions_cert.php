@@ -262,4 +262,101 @@ if ($retval) {
 else
   print "CRL published to ".$config[cacrl]."\n<br>";
 }
+
+
+
+// ==================================================================================================================
+// =================== VIEW Certificate =====================================================================================
+// ==================================================================================================================
+
+
+function view_cert_details_form(){
+$config=$_SESSION['config'];
+?>
+
+<p>
+<b>View a Certificate's details</b><br>
+<?
+//Sign an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
+$valid_files=0;
+$dh = opendir($config['cert_path']) or die('Unable to open certificate path');
+while (($file = readdir($dh)) !== false) {
+	if ( ($file !== ".htaccess") && is_file($config['cert_path'].$file) )  {
+	  if (is_file($config['cert_path'].$file) ) {
+	    $valid_files++;
+	  }
+	}
+}
+closedir($dh);
+
+if ($valid_files) {
+?>
+<form action="index.php" method="post">
+<input type="hidden" name="menuoption" value="view_cert_details"/>
+<table  style="width: 400px;">
+<tr><td>Name:<td><select name="cert_name" rows="6">
+<option value="">--- Select a Certificate
+<?
+print "<option value=\"zzTHISzzCAzz\">This CA Certificate</option>\n";
+$dh = opendir($config['cert_path']) or die('Unable to open ' . $config['cert_path']);
+while (($file = readdir($dh)) !== false) {
+	if ( ($file !== ".htaccess") && is_file($config['cert_path'].$file) )  {
+		$name = base64_decode(substr($file, 0,strrpos($file,'.')));
+		$ext = substr($file, strrpos($file,'.'));
+		print "<option value=\"$name$ext\">$name$ext</option>\n";
+	}
+}
+?>
+</select></td></tr>
+<tr><td><td><input type="submit" value="View Certificate">
+</table>
+</form>
+<?
+}
+else 
+  print "<b> No Valid Certificates are available to view.</b>\n";
+?>
+</p>
+<?PHP
+}
+
+
+function view_cert($my_certfile) {
+$config=$_SESSION['config'];
+?>
+<h1>Viewing certificate request</h1>
+
+<?
+print "<b>Loading Certificate from file...</b><br/>";
+if ($my_certfile == "zzTHISzzCAzz" )
+  {
+  $my_cert = openssl_x509_parse(file_get_contents($config['cacert']));
+  }
+else
+  {
+  $name = base64_encode(substr($my_certfile, 0,strrpos($my_certfile,'.')));
+  $ext = substr($my_certfile, strrpos($my_certfile,'.'));
+  $my_base64_certfile=$name.$ext;
+  $my_cert = openssl_x509_parse(file_get_contents($config['cert_path'].$my_base64_certfile));
+  }
+
+$my_details = $my_cert['subject'];
+print "Done<br/><br/>\n";
+print "<BR><BR><BR>\n\n\n";
+?>
+<table  style="width: 400px;">
+<tr><th width=150>Common Name (eg www.golf.local)</th><td><?PHP print $my_details[CN];?></td></tr>
+<tr><th>Contact Email Address</th><td><?PHP print $my_details[emailAddress];?></td></tr>
+<tr><th>Organizational Unit Name</th><td><?PHP print $my_details[OU];?></td></tr>
+<tr><th>Organization Name</th><td><?PHP print $my_details[O];?></td></tr>
+<tr><th>City</th><td><?PHP print $my_details[L];?></td></tr>
+<tr><th>State</th><td><?PHP print $my_details[ST];?></td></tr>
+<tr><th>Country</th><td><?PHP print $my_details[C];?></td></tr>
+</table>
+<?PHP
+print "\n\n<br><br><b>Completed.</b><br/>";
+}
+
+
+
 ?>
