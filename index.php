@@ -287,6 +287,19 @@ switch ($menuoption) {
 		delete_ca($config['certstore_path'],$page_variables['ca_name']);  
 	break;
 
+    case "view_cert_details_form":
+        printHeader('View Certificate Details');
+        view_cert_details_form();
+        printFooter();
+    break;
+
+    case "view_cert_details":
+        printHeader('View Certificate Details');
+        view_cert($_POST['cert_name']);
+        printFooter();
+    break;
+
+
 	default:
         printHeader("Unknown area");
         print "Unknown menuoption.";
