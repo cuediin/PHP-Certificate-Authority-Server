@@ -60,7 +60,7 @@ if ( $privkey = openssl_pkey_get_private($myKey, $passPhrase) ) {
   print "Done\n<br>Passphrase correct<br/>\n";
   }
 else {
-  die ('Error with passphrase for this Key.');
+  die ('Error with passphrase for this key.');
   }
 }
 // ==================================================================================================================
