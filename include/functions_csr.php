@@ -326,7 +326,7 @@ $config=$_SESSION['config'];
 <p>
 <b>View a CSR's details</b><br>
 <?
-//Sign an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
+//View an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
 $valid_files=0;
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
 while (($file = readdir($dh)) !== false) {

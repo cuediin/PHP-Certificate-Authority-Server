@@ -88,7 +88,7 @@ switch ($menuoption) {
     break;
 
     case "switchca":
-        printHeader("PHP-CA Switch CA");
+        printHeader("Switch CA");
         switch_ca();
         printFooter();
     break;
