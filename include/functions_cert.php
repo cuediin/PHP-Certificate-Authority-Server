@@ -203,7 +203,7 @@ while (!feof($my_index_handle)) {
    $this_line = rtrim(fgets($my_index_handle));
    if (preg_match($pattern,$this_line,$matches))
      if ($matches[1] == 'V') {
-       print "<option value=\"".$matches[4]."\">".$matches[6]."</option>\n";
+       print "<option value=\"".$matches[4]."\">".$matches[4]."<BR>".$matches[6]."</option>\n";
        }
 }
 fclose($my_index_handle);
@@ -341,17 +341,20 @@ else
   }
 
 $my_details = $my_cert['subject'];
+//print_r($my_cert);
+
 print "Done<br/><br/>\n";
 print "<BR><BR><BR>\n\n\n";
 ?>
-<table  style="width: 400px;">
-<tr><th width=150>Common Name (eg www.golf.local)</th><td><?PHP print $my_details[CN];?></td></tr>
-<tr><th>Contact Email Address</th><td><?PHP print $my_details[emailAddress];?></td></tr>
-<tr><th>Organizational Unit Name</th><td><?PHP print $my_details[OU];?></td></tr>
-<tr><th>Organization Name</th><td><?PHP print $my_details[O];?></td></tr>
-<tr><th>City</th><td><?PHP print $my_details[L];?></td></tr>
-<tr><th>State</th><td><?PHP print $my_details[ST];?></td></tr>
-<tr><th>Country</th><td><?PHP print $my_details[C];?></td></tr>
+<table  style="width:500px;" border=1>
+<tr><th width=200>Common Name<BR>(eg www.golf.local)</th><td><?PHP print $my_details['CN'];?></td></tr>
+<tr><th>Serial Number</th><td><?PHP print $my_cert['serialNumber'];?></td></tr>
+<tr><th>Contact Email Address</th><td><?PHP print $my_details['emailAddress'];?></td></tr>
+<tr><th>Organizational Unit Name</th><td><?PHP print $my_details['OU'];?></td></tr>
+<tr><th>Organization Name</th><td><?PHP print $my_details['O'];?></td></tr>
+<tr><th>City</th><td><?PHP print $my_details['L'];?></td></tr>
+<tr><th>State</th><td><?PHP print $my_details['ST'];?></td></tr>
+<tr><th>Country</th><td><?PHP print $my_details['C'];?></td></tr>
 </table>
 <?PHP
 print "\n\n<br><br><b>Completed.</b><br/>";

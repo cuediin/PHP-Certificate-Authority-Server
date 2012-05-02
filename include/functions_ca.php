@@ -1,15 +1,11 @@
 <?PHP
 function switch_ca() {
 session_unset();
-?>
-<h1>PHP-CA Switch CA</h1>
-<?PHP
 include("./include/settings.php");
 $dh = opendir($config['certstore_path']) or die('Fatal: Unable to opendir Certificate Store.');
 ?>
 
-<p>
-<b>Switch to a diff CA</b><br/>
+<b>Switch to a diff CA<BR></b>
 If you wish to create a new Sub-CA please select create CSR and select device type as Sub_CA.
 
 <form action="index.php" method="post">
