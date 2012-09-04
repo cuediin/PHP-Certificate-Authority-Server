@@ -151,7 +151,7 @@ $valid_files=0;
 $dh = opendir($config['crl_path']) or die('Unable to open crl path');
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['crl_path'].$file) )  {
-	  if (!is_file($config['crl_path'].$file) ) {
+	  if (is_file($config['crl_path'].$file) ) {
 	    $valid_files++;
 	  }
 	}
@@ -182,7 +182,7 @@ while (($file = readdir($dh)) !== false) {
 }
 ?>
 </select></td></tr>
-<tr><td><td><input type="submit" value="Download Certificate">
+<tr><td><td><input type="submit" value="Download CRL File">
 </table>
 </form>
 </p>
