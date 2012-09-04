@@ -15,6 +15,8 @@ CA functions
  Creation of an issuing CA (or multiples there of)
  Change the CA private key password
  Switch between CA's on the device.
+ Download the CRL file (including a rename option of the extension or the name)
+
 
 CSR functions
  Create a CSR from scratch
