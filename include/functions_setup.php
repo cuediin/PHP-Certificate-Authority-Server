@@ -22,13 +22,7 @@ $this_certstore = dirname($_SESSION['cwd'])."/certstore";
 }
 
 function setup_certstore($my_certstore_path) {
-if (!is_writable(dirname($my_certstore_path)) ) {
-  $is_writable = FALSE;
-  print "You do not have write permissions to the file $my_certstore_path<BR>One way around this is in Linux is to use<BR>chown -R www-data:www-data ".dirname($my_certstore_path)."<BR>\n<BR>\n";
-  exit();
-  }
-if (!is_dir($my_certstore_path) && $is_writable)
-  mkdir($my_certstore_path,0700,true) or die('Fatal: Unable to create Certificate Store folder'.$my_certstore_path);
+mkdir($my_certstore_path,0700,true) or die('Fatal: Unable to create Certificate Store folder'.$my_certstore_path);
 
 $is_writable = TRUE;
 if (!is_writable('./include/settings.php') ){
