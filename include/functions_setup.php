@@ -22,7 +22,12 @@ $this_certstore = dirname($_SESSION['cwd'])."/certstore";
 }
 
 function setup_certstore($my_certstore_path) {
-mkdir($my_certstore_path,0700,true) or die('Fatal: Unable to create Certificate Store folder'.$my_certstore_path);
+if (is_dir($my_certstore_path) or is_file($my_certstore_path) or is_link($my_certstore_path) ) {
+  print "A file or directory or symbolic link of the same name already exists for $my_certstore_path";
+  exit();
+  }
+else
+  mkdir($my_certstore_path,0700,true) or die('Fatal: Unable to create Certificate Store folder'.$my_certstore_path);
 
 $is_writable = TRUE;
 if (!is_writable('./include/settings.php') ){
