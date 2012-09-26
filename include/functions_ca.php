@@ -106,7 +106,7 @@ $_SESSION['my_ca']='create_ca';
 <input type="hidden" name="device_type" value="ca_cert"/>
 
 <table  style="width: 400px;">
-<tr><th width=100>Common Name (eg www.golf.local)</th><td><input type="text" name="cert_dn[commonName]" value="ABC Widgets Certificate Authority" size="40"></td></tr>
+<tr><th width=100>Common Name (eg root-ca.golf.local)</th><td><input type="text" name="cert_dn[commonName]" value="ABC Widgets Certificate Authority" size="40"></td></tr>
 <tr><th>Contact Email Address</th><td><input type="text" name="cert_dn[emailAddress]" value="cert@abcwidgets.com" size="30"></td></tr>
 <tr><th>Organizational Unit Name</th><td><input type="text" name="cert_dn[organizationalUnitName]" value="Certification" size="30"></td></tr>
 <tr><th>Organization Name</th><td><input type="text" name="cert_dn[organizationName]" value="ABC Widgets" size="25"></td></tr>
