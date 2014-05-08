@@ -251,7 +251,7 @@ $my_index = str_replace($orig_index_line,$new_index_line,$my_index) or die('Unab
 file_put_contents($config['index'],$my_index);
 //openssl ca -revoke $config['cert_path'].$filename -keyfile $config['cakey'] -cert $config['cacert'] -config $config['config']
 //openssl ca -gencrl -keyfile $config['cakey'] -cert $config['cacert'] -out $config['cacrl'] -crldays 365 -config $config['config']
-$cmd="openssl ca -gencrl -passin pass:".$my_passPhrase." -crldays 365"." -keyfile ".$config['cakey']." -cert ".$config['cacert']." -out ".$config['cacrl']." -config ".$config['config'];
+$cmd="openssl ca -gencrl -passin pass:".$my_passPhrase." -crldays 365"." -keyfile \"".$config['cakey']."\" -cert \"".$config['cacert']."\" -out \"".$config['cacrl']."\" -config \"".$config['config']."\"";
 exec($cmd,$output_array,$retval);
 if ($retval) {
  print $cmd."\n<BR>";
