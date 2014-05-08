@@ -33,6 +33,6 @@ Certificate functions
 
 Key functions
  Download the public key component of a key. (Can be converted for use by Putty)
- Download the private key (assuming the private key password is correct)
+ Download the private key (assuming the private key password is correct). Will also strip the passphrase from the private key, if requested to.
  Check a private key's passphrase. (Including the private key of the CA)
 
