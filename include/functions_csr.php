@@ -129,7 +129,7 @@ $config=$_SESSION['config'];
 ?>
 <tr><td width=100>Name:<td><select name="cert_name" rows="6">
 <option value="">--- Select a CSR
-<?
+<?php
 $dh = opendir($config['req_path']) or die('Unable to open ' . $config['req_path']);
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['req_path'].$file) )  {
@@ -325,7 +325,7 @@ $config=$_SESSION['config'];
 
 <p>
 <b>View a CSR's details</b><br>
-<?
+<?php
 //View an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
 $valid_files=0;
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
@@ -345,7 +345,7 @@ if ($valid_files) {
 <table  style="width: 400px;">
 <tr><td>Name:<td><select name="csr_name" rows="6">
 <option value="">--- Select a CSR
-<?
+<?php
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['req_path'].$file) )  {
@@ -362,7 +362,7 @@ closedir($dh);
 <tr><td><td><input type="submit" value="View CSR">
 </table>
 </form>
-<?
+<?php
 }
 else 
   print "<b> No Valid CSRs are available to view.</b>\n";
@@ -380,7 +380,7 @@ $my_base64_csrfile=$name.$ext;
 ?>
 <h1>Viewing certificate request</h1>
 
-<?
+<?php
 print "<b>Loading CSR from file...</b><br/>";
 $fp = fopen($config['req_path'].$my_base64_csrfile, "r") or die('Fatal: Error opening CSR file'.$my_base64_csrfile);
 $my_csr = fread($fp, filesize($config['req_path'].$my_base64_csrfile)) or die('Fatal: Error reading CSR file'.$my_base64_csrfile);
@@ -416,7 +416,7 @@ $config=$_SESSION['config'];
 ?>
 <p>
 <b>Sign a CSR - Generate a Certificate</b><br>
-<?
+<?php
 //Sign an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
 $valid_files=0;
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
@@ -439,7 +439,7 @@ if ($valid_files) {
 <tr><th>Device Type</th><td><input type="radio" name="device_type" value="client_cert" /> Client <input type="radio" name="device_type" value="server_cert" checked /> Server<input type="radio" name="device_type" value="msdc_cert"/> Microsoft Domain Controller<input type="radio" name="device_type" value="subca_cert" /> Sub_CA</td></tr>
 <tr><td>Name:<td><select name="csr_name" rows="6">
 <option value="">--- Select a CSR
-<?
+<?php
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['req_path'].$file) )  {
@@ -456,7 +456,7 @@ closedir($dh);
 <tr><td><td><input type="submit" value="Sign CSR">
 </table>
 </form>
-<?
+<?php
 }
 else 
   print "<b> No Valid CSRs are available to sign.</b>\n";
@@ -481,7 +481,7 @@ $my_base64_csrfile=$name.$ext;
 <p>
 Now signing certificate... Please wait...
 </p>
-<?
+<?php
 print "<b>Loading CA key...</b><br/>";
 $fp = fopen($config['cakey'], "r") or die('Fatal: Error opening CA Key'.$config['cakey']);
 $my_key = fread($fp, filesize($config['cakey'])) or die('Fatal: Error reading CA Key'.$config['cakey']);

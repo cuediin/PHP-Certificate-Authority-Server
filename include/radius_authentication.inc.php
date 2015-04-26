@@ -1,4 +1,4 @@
-<?
+<?php
     //
     // $Id: radius_authentication.inc,v 1.3 2002/01/23 23:21:20 mavetju Exp $
     //
