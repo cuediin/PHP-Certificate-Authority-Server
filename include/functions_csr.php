@@ -11,7 +11,7 @@ $my_x509_parse = openssl_x509_parse(file_get_contents($config['cacert']));
 <b>Create a new CSR</b><br/>
 <form action="index.php" method="post">
 <input type="hidden" name="menuoption" value="createCSR"/>
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><th width=100>Common Name (eg www.golf.local)</th><td><input type="text" name="cert_dn[commonName]" value="ABC Widgets Certificate Authority" size="40"></td></tr>
 <tr><th>Contact Email Address</th><td><input type="text" name="cert_dn[emailAddress]" value=<?PHP if (array_key_exists('emailAddress',$my_x509_parse['subject'])) print $my_x509_parse['subject']['emailAddress']; else print '""';?> size="30"></td></tr>
 <tr><th>Organizational Unit Name</th><td><input type="text" name="cert_dn[organizationalUnitName]" value=<?PHP if (array_key_exists('OU',$my_x509_parse['subject'])) print $my_x509_parse['subject']['OU']; else print '""';?> size="30"></td></tr>
@@ -20,7 +20,7 @@ $my_x509_parse = openssl_x509_parse(file_get_contents($config['cacert']));
 <tr><th>State</th><td><input type="text" name="cert_dn[stateOrProvinceName]" value=<?PHP if (array_key_exists('ST',$my_x509_parse['subject'])) print $my_x509_parse['subject']['ST']; else print '""';?>  size="25"></td></tr>
 <tr><th>Country</th><td><input type="text" name="cert_dn[countryName]" value=<?PHP if (array_key_exists('C',$my_x509_parse['subject'])) print $my_x509_parse['subject']['C']; else print '""';?>  size="2"></td></tr>
 <tr><th>Key Size</th><td><input type="radio" name="cert_dn[keySize]" value="1024" /> 1024bits <input type="radio" name="cert_dn[keySize]" value="2048bits" /> 2048bits<input type="radio" name="cert_dn[keySize]" value="4096bits" checked /> 4096bits</td></tr>
-<tr><th>Device Type</th><td><input type="radio" name="device_type" value="client_cert" /> Client <input type="radio" name="device_type" value="server_cert" checked /> Server<input type="radio" name="device_type" value="msdc_cert"/> Microsoft Domain Controller<input type="radio" name="device_type" value="subca_cert" /> Sub_CA</td></tr>
+<tr><th>Device Type</th><td><input type="radio" name="device_type" value="client_cert" /> Client <input type="radio" name="device_type" value="server_cert" checked /> Server<input type="radio" name="device_type" value="msdc_cert"/> Microsoft Domain Controller<input type="radio" name="device_type" value="subca_cert" /> Sub_CA <input type="radio" name="device_type" value="8021x_client_cert" /> 802.1x Client<input type="radio" name="device_type" value="8021x_server_cert" /> 802.1x Server</td></tr>
 <tr><th>Certificate Passphrase</th><td><input type="password" name="passphrase"/></td></tr>
 <tr><td><td><input type="submit" value="Create CSR"/>
 </table>
@@ -92,7 +92,7 @@ print "Done<br/><br/>\n";
 $my_details=openssl_csr_get_subject($my_csr);
 $my_public_key_details=openssl_pkey_get_details(openssl_csr_get_public_key($my_csr));
 ?>
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><th width=100>Common Name (eg www.golf.local)</th><td><?PHP print $my_details['CN'];?></td></tr>
 <tr><th>Contact Email Address</th><td><?PHP print $my_details['emailAddress'];?></td></tr>
 <tr><th>Organizational Unit Name</th><td><?PHP print $my_details['OU'];?></td></tr>
@@ -117,7 +117,7 @@ $config=$_SESSION['config'];
 <b>Download a CSR</b><br/>
 <form action="index.php" method="post">
 <input type="hidden" name="menuoption" value="download_csr">
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 
 <tr><th>Rename Extension</th><td><input type="radio" name="rename_ext" value="FALSE" checked />Do not Rename<br><input type="radio" name="rename_ext" value="cer" /> Rename to cer<br><input type="radio" name="rename_ext" value="csr" /> Rename to csr<br></td></tr>
 <?PHP
@@ -196,7 +196,7 @@ $config=$_SESSION['config'];
 <b>Import a CSR</b><br/>
 <form action="index.php" method="post">
 <input type="hidden" name="menuoption" value="import_CSR"/>
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><td colspan=2>Request:<br/>
 <textarea name="request" cols="60" rows="6"></textarea><br/>
 <tr><td><td><input type="submit" value="Import CSR"/>
@@ -246,7 +246,7 @@ $config=$_SESSION['config'];
 <form enctype="multipart/form-data" action="index.php" method="POST">
 <input type="hidden" name="menuoption" value="upload_CSR"/>
 <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><th>Choose a CSR to upload: </th></tr>
 <tr><td><input name="uploadedfile" type="file" id="uploaded_csr" />
 <tr><td><input type="submit" value="Upload CSR" />
@@ -282,7 +282,7 @@ else
       fclose($fp) or die('Fatal: Error closing CSR file ');
       print "Done<br/><br/>\n";
       $cert_dn=openssl_csr_get_subject($my_csr) or die('Invalid CSR Format.');	  
-	  print "<table  style=\"width: 400px;\">";
+	  print "<table  style=\"width: 90%;\">";
       print "<tr><th width=100>Certificate Details</th><td></td></tr>";
 	  $my_index_name='';
 	  while (list($key, $val) = each($config['blank_dn'])) {
@@ -342,7 +342,7 @@ if ($valid_files) {
 ?>
 <form action="index.php" method="post">
 <input type="hidden" name="menuoption" value="view_csr_details"/>
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><td>Name:<td><select name="csr_name" rows="6">
 <option value="">--- Select a CSR
 <?
@@ -391,7 +391,7 @@ print "<BR><BR><BR>\n\n\n";
 $my_details=openssl_csr_get_subject($my_csr);
 $my_public_key_details=openssl_pkey_get_details(openssl_csr_get_public_key($my_csr));
 ?>
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><th width=100>Common Name (eg www.golf.local)</th><td><?PHP print $my_details[CN];?></td></tr>
 <tr><th>Contact Email Address</th><td><?PHP print $my_details[emailAddress];?></td></tr>
 <tr><th>Organizational Unit Name</th><td><?PHP print $my_details[OU];?></td></tr>
@@ -433,10 +433,10 @@ if ($valid_files) {
 ?>
 <form action="index.php" method="post">
 <input type="hidden" name="menuoption" value="sign_csr"/>
-<table  style="width: 400px;">
+<table  style="width: 90%;">
 <tr><td width=100>CA Passphrase:<td><input type="password" name="pass"/>
 <tr><td width=100>Number of days Certificate is to be valid for:<td><input type="text" name="days" value="730"/>
-<tr><th>Device Type</th><td><input type="radio" name="device_type" value="client_cert" /> Client <input type="radio" name="device_type" value="server_cert" checked /> Server<input type="radio" name="device_type" value="msdc_cert"/> Microsoft Domain Controller<input type="radio" name="device_type" value="subca_cert" /> Sub_CA</td></tr>
+<tr><th>Device Type</th><td><input type="radio" name="device_type" value="client_cert" /> Client <input type="radio" name="device_type" value="server_cert" checked /> Server<input type="radio" name="device_type" value="msdc_cert"/> Microsoft Domain Controller<input type="radio" name="device_type" value="subca_cert" /> Sub_CA <input type="radio" name="device_type" value="8021x_client_cert" /> 802.1x Client<input type="radio" name="device_type" value="8021x_server_cert" /> 802.1x Server</td></tr>
 <tr><td>Name:<td><select name="csr_name" rows="6">
 <option value="">--- Select a CSR
 <?
