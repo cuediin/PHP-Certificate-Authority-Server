@@ -16,7 +16,7 @@ $config=$_SESSION['config'];
 <tr><td><td><input type="submit" value="Check Passphrase"/>
 <tr><td width=100>Private Key:<td><select name="key_name" rows="6">
 <option value="">--- Select a key
-<?
+<?php
 print "<option value=\"zzTHISzzCAzz\">This CA Key</option>\n";
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
 while (($file = readdir($dh)) !== false) {
@@ -72,7 +72,7 @@ $config=$_SESSION['config'];
 ?>
 <p>
 <b>Get Public SSH Key from a Private Key</b><br/>
-<?
+<?php
 //Get a Public SSH key from a private key
 $valid_files=0;
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
@@ -90,7 +90,7 @@ if ($valid_files) {
 <tr><td width=100>Key Passphrase:<td><input type="password" name="pass"/>
 <tr><td width=100>Name:<td><select name="key_name" rows="6">
 <option value="">--- Select a private key
-<?
+<?php
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['key_path'].$file) )  {
@@ -104,7 +104,7 @@ while (($file = readdir($dh)) !== false) {
 <tr><td><td><input type="submit" value="Get Public Key">
 </table>
 </form>
-<?
+<?php
 }
 else 
   print "<b> No Private Keys are available to convert into SSH Public Keys.</b>\n";
@@ -141,7 +141,7 @@ $config=$_SESSION['config'];
 ?>
 <p>
 <b>Get a Private Key</b><br/>
-<?
+<?php
 //Download a private key
 $valid_files=0;
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
@@ -163,7 +163,7 @@ if ($valid_files) {
 <tr><td width=100>Name:<td><select name="key_name" rows="6">
 
 <option value="">--- Select a private key
-<?
+<?php
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['key_path'].$file) )  {
@@ -177,7 +177,7 @@ while (($file = readdir($dh)) !== false) {
 <tr><td><td><input type="submit" value="Get Private Key">
 </table>
 </form>
-<?
+<?php
 }
 else 
   print "<b> No Valid Private Keys are available to download.</b>\n";

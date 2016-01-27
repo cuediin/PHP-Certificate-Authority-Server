@@ -14,7 +14,7 @@ If you wish to create a new Sub-CA please select create CSR and select device ty
 <tr><td>Certificate Authority:<td><select name="ca_name" rows="6">
 <option value="">--- Select a CA
 <option value="zzCREATEZZnewZZ">Create New Root CA</option>
-<?
+<?php
 while (($file = readdir($dh)) !== false) {
 //	if (substr($file, -4) == ".csr") {
 	if ( is_dir($config['certstore_path'].$file) && ($file != '.') && ($file != '..') ) {
@@ -55,7 +55,7 @@ You will not be prompted any further once you enter the details and click submit
 <tr><td>Please type DELETEME<BR>all one word.<td><input type="text" name="confirm_text" value="XXXX">
 <tr><td>Certificate Authority:<td><select name="ca_name" rows="6">
 <option value="zzzDELETECAzzz">--- Select a CA
-<?
+<?php
 while (($file = readdir($dh)) !== false) {
 //	if (substr($file, -4) == ".csr") {
 	if ( is_dir($config['certstore_path'].$file) && ($file != '.') && ($file != '..') ) {
@@ -171,7 +171,7 @@ if ($valid_files) {
 
 <tr><td width=100>Name:<td><select name="crl_name" rows="6">
 <option value="">--- Select a CRL
-<?
+<?php
 $dh = opendir($config['crl_path']) or die('Unable to open ' . $config['crl_path']);
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['crl_path'].$file) )  {

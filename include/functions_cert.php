@@ -26,7 +26,7 @@ $config=$_SESSION['config'];
 ?>
 <tr><td width=100>Name:<td><select name="cert_name" rows="6">
 <option value="">--- Select a certificate
-<?
+<?php
 print "<option value=\"zzTHISzzCAzz\">This CA Certificate</option>\n";
 $dh = opendir($config['cert_path']) or die('Unable to open ' . $config['cert_path']);
 while (($file = readdir($dh)) !== false) {
@@ -91,7 +91,7 @@ $config=$_SESSION['config'];
 ?>
 <p>
 <b>Convert a Certificate to PKCS#12</b><br/>
-<?
+<?php
 //Convert an existing certificate to PKCS#12 format, however, you can only do this if you have a private keyfile used to generate the CSR with.
 $valid_files=0;
 $dh = opendir($config['cert_path']) or die('Unable to open cert path');
@@ -113,7 +113,7 @@ if ($valid_files) {
 <tr><td width=100>PKCS#12 Passphrase:<td><input type="password" name="pkcs12_pass"/>
 <tr><td width=100>Name:<td><select name="cert_name" rows="6">
 <option value="">--- Select a certificate
-<?
+<?php
 $dh = opendir($config['cert_path']) or die('Unable to open cert path');
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['cert_path'].$file)  && (substr($file, strrpos($file,'.')) != '.p12') && !is_file($config['cert_path'].substr($file, 0,strrpos($file,'.')).'.p12') )  {
@@ -130,7 +130,7 @@ closedir($dh);
 <tr><td><td><input type="submit" value="Convert Certificate">
 </table>
 </form>
-<?
+<?php
 }
 else 
   print "<b> No Valid Certificates are available to convert.</b>\n";
@@ -195,7 +195,7 @@ $config=$_SESSION['config'];
 <tr><td width=100>CA Passphrase:<td><input type="password" name="pass"/>
 <tr><td width=100>Name:<td><select name="cert_serial">
 <option value="">--- Select a certificate
-<?
+<?php
 $config=$_SESSION['config'];
 $my_index_handle = fopen($config['index'], "r") or die('Unable to open Index file for reading');
 $pattern = '/(\D)\t(\d+[Z])\t(\d+[Z])?\t([a-z0-9]+)\t(\D+)\t(.+)/'; 
@@ -276,7 +276,7 @@ $config=$_SESSION['config'];
 
 <p>
 <b>View a Certificate's details</b><br>
-<?
+<?php
 //Sign an existing CSR code form. Uses some PHP code first to ensure there are some valid CSRs available.
 $valid_files=0;
 $dh = opendir($config['cert_path']) or die('Unable to open certificate path');
@@ -296,7 +296,7 @@ if ($valid_files) {
 <table  style="width: 400px;">
 <tr><td>Name:<td><select name="cert_name" rows="6">
 <option value="">--- Select a Certificate
-<?
+<?php
 print "<option value=\"zzTHISzzCAzz\">This CA Certificate</option>\n";
 $dh = opendir($config['cert_path']) or die('Unable to open ' . $config['cert_path']);
 while (($file = readdir($dh)) !== false) {
@@ -311,7 +311,7 @@ while (($file = readdir($dh)) !== false) {
 <tr><td><td><input type="submit" value="View Certificate">
 </table>
 </form>
-<?
+<?php
 }
 else 
   print "<b> No Valid Certificates are available to view.</b>\n";
@@ -326,7 +326,7 @@ $config=$_SESSION['config'];
 ?>
 <h1>Viewing certificate request</h1>
 
-<?
+<?php
 print "<b>Loading Certificate from file...</b><br/>";
 if ($my_certfile == "zzTHISzzCAzz" )
   {
