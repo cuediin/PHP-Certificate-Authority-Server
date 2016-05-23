@@ -4,7 +4,7 @@ packages installed:
 php5
 libapache2-mod-php5
 apache2
-putty-tools
+putty-tools [ now deprecated ]
 
 Whilst not a dependancy, it is best to have the /var/www directory owned by the www-data:www-data user:group.
 chown -R www-data:www-data /var/www
