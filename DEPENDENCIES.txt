@@ -9,3 +9,6 @@ putty-tools
 Whilst not a dependancy, it is best to have the /var/www directory owned by the www-data:www-data user:group.
 chown -R www-data:www-data /var/www
 can be used to achieve this.
+
+It is advised that /var/www/phpca be the root folder for your phpca website and /var/www/certstore be your folder location for the certificates. That way, www-data can write to the certstore, without it being directly accessible via the webserver, but only via php code accessible via /var/www/phpca
+
