@@ -40,17 +40,19 @@ if (get_magic_quotes_gpc()) {
 		$cert_dn[$key] = stripslashes($val);
 	}
 }
-
-$my_csrfile="";
 while (list($key, $val) = each($my_cert_dn)) {
 		if ( array_key_exists($key,$my_cert_dn) )
 		  if (strlen($my_cert_dn[$key]) > 0) {
 		    $cert_dn[$key]=$my_cert_dn[$key];
-		    $my_csrfile = $my_csrfile.$cert_dn[$key].":";
 			}
-		  else
-		    $my_csrfile = $my_csrfile.":";		    
 		 }
+$my_csrfile="";
+while (list($key, $val) = each($config['blank_dn'])) {
+		if ( isset($cert_dn[$config['convert_dn'][$key]]) )
+		 $my_csrfile = $my_csrfile.$cert_dn[$config['convert_dn'][$key]].":";
+		 else
+		 $my_csrfile = $my_csrfile.":";
+ }
 $my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
 print $my_csrfile;
 $filename=base64_encode($my_csrfile);
