@@ -217,7 +217,7 @@ while (list($key, $val) = each($config['blank_dn'])) {
 		if ( isset($cert_dn[$key]) )
 		 $my_csrfile = $my_csrfile.$cert_dn[$key].":";
 		 else
-		 $my_csrfile = $my_csrfile." :";
+		 $my_csrfile = $my_csrfile.":";
  }
 print_r($cert_dn);
 $my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
@@ -292,7 +292,7 @@ else
 		  $my_index_name="/".$key."=".$cert_dn[$key].$my_index_name;
 		  }
 		 else
-		 $my_csrfile = $my_csrfile." :";
+		 $my_csrfile = $my_csrfile.":";
 		}
       $my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
 	  print "</table>\n";
