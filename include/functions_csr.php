@@ -41,15 +41,19 @@ if (get_magic_quotes_gpc()) {
 	}
 }
 
+$my_csrfile="";
 while (list($key, $val) = each($my_cert_dn)) {
 		if ( array_key_exists($key,$my_cert_dn) )
-		  if (strlen($my_cert_dn[$key]) > 0)
+		  if (strlen($my_cert_dn[$key]) > 0) {
 		    $cert_dn[$key]=$my_cert_dn[$key];
+		    $my_csrfile = $my_csrfile.$cert_dn[$key].":";
+			}
+		  else
+		    $my_csrfile = $my_csrfile.":";		    
 		 }
-
-$filestr = $cert_dn['commonName'].":".$cert_dn['organizationalUnitName'].":".$cert_dn['organizationName'].":".$cert_dn['localityName'].":".$cert_dn['stateOrProvinceName'].":".$cert_dn['countryName'];
-$filename=base64_encode($filestr);
-print $filestr;
+$my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
+print $my_csrfile;
+$filename=base64_encode($my_csrfile);
 if ($my_device_type=='ca_cert') {
   $client_keyFile = $config['cakey'];
   $client_reqFile = $config['req_path'].$filename.".pem";  
