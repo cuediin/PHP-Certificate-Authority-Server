@@ -28,6 +28,15 @@ $config['blank_dn']=array(
 'ST'=>"State",
 'C'=>"Country",
 );
+$config['convert_dn']=array(
+'CN'=>"commonName",
+'emailAddress'=>"emailAddress",
+'OU'=>"organizationalUnitName",
+'O'=>"organizationName",
+'L'=>"localityName",
+'ST'=>"stateOrProvinceName",
+'C'=>"countryName",
+);
 if (is_file($config['cacert']) ) {
   $data = openssl_x509_parse(file_get_contents($config['cacert']));
   if (isset($data['subject']['CN'])) {$config['common'] = $data['subject']['CN'];}
