@@ -26,7 +26,7 @@ $config['blank_dn']=array(
 'O'=>"Organization",
 'L'=>"Locality/ City",
 'ST'=>"State",
-'C'=>"Country",
+'C'=>"Country"
 );
 $config['convert_dn']=array(
 'CN'=>"commonName",
