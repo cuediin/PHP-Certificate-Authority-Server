@@ -1,5 +1,5 @@
 <?PHP
-if (session_id()==='') {session_start();}
+function update_config() {
 $config['certstore_path']="NOT_DEFINED";
 if (isset($_SESSION['config']) and isset($_SESSION['my_ca']) )
   $config['ca_path'] = $config['certstore_path'].$_SESSION['my_ca']."/";
@@ -26,7 +26,7 @@ $config['blank_dn']=array(
 'O'=>"Organization",
 'L'=>"Locality/ City",
 'ST'=>"State",
-'C'=>"Country"
+'C'=>"Country",
 );
 $config['convert_dn']=array(
 'CN'=>"commonName",
@@ -35,7 +35,7 @@ $config['convert_dn']=array(
 'O'=>"organizationName",
 'L'=>"localityName",
 'ST'=>"stateOrProvinceName",
-'C'=>"countryName",
+'C'=>"countryName"
 );
 if (is_file($config['cacert']) ) {
   $data = openssl_x509_parse(file_get_contents($config['cacert']));
@@ -57,5 +57,7 @@ array('config' => $config['config'],
         'private_key_bits' => (int)$someVariable // ---> good
         );
 */
+return $config;
+}
 
 ?>

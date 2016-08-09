@@ -1,20 +1,19 @@
 <?PHP
-function switch_ca() {
+function switch_ca_form() {
 session_unset();
-include("./include/settings.php");
+$config=update_config();
 $dh = opendir($config['certstore_path']) or die('Fatal: Unable to opendir Certificate Store.');
 ?>
-
-<b>Switch to a diff CA<BR></b>
+<b>Switch to a different CA<br \></b>
 If you wish to create a new Sub-CA please select create CSR and select device type as Sub_CA.
 
 <form action="index.php" method="post">
-<input type="hidden" name="menuoption" value="menu"/>
+<input type="hidden" name="menuoption" value="switchca"/>
 <table style="width: 350px;">
 <tr><td>Certificate Authority:<td><select name="ca_name" rows="6">
 <option value="">--- Select a CA
 <option value="zzCREATEZZnewZZ">Create New Root CA</option>
-<?php
+<?PHP
 while (($file = readdir($dh)) !== false) {
 //	if (substr($file, -4) == ".csr") {
 	if ( is_dir($config['certstore_path'].$file) && ($file != '.') && ($file != '..') ) {
@@ -35,7 +34,7 @@ session_unset();
 ?>
 <h1>PHP-CA Delete CA</h1>
 <?PHP
-include("./include/settings.php");
+$config=update_config();
 $dh = opendir($config['certstore_path']) or die('Fatal: Unable to opendir Certificate Store.');
 if ($my_errors['errors']) {
   if (!$my_errors['valid_text'])
@@ -219,5 +218,6 @@ else {
   printFooter();
   }
 }
+
 
 ?>

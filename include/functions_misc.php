@@ -1,6 +1,5 @@
 <?PHP
 
-
 function pem2der($pem_data) {
    $begin = "CERTIFICATE-----";
    $end   = "-----END";

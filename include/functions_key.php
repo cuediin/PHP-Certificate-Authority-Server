@@ -4,7 +4,7 @@
 // =================== CHECK KEY PASSPHRASE =====================================================================================
 // ==================================================================================================================
 
-function check_key_passphrase_form(){
+function check_key_passphrase_form($my_values=array('key_name'=>'::zz::')){
 $config=$_SESSION['config'];
 ?>
 <p>
@@ -21,9 +21,10 @@ print "<option value=\"zzTHISzzCAzz\">This CA Key</option>\n";
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['key_path'].$file) )  {
+	    if ( $my_values['key_name'] == "$name$ext") $this_selected=" selected=\"selected\""; else $this_selected="";
 		$name = base64_decode(substr($file, 0,strrpos($file,'.')));
 		$ext = substr($file, strrpos($file,'.'));
-		print "<option value=\"$name$ext\">$name$ext</option>\n";
+		print "<option value=\"$name$ext\"".$this_selected.">$name$ext</option>\n";
 	}
 }
 ?>

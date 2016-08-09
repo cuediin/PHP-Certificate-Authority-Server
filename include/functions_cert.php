@@ -184,7 +184,7 @@ print "<b>Download PKCS#12 Certificate:</b>\n<br>\n<br>\n";
 // =================== REVOKE CERT =====================================================================================
 // ==================================================================================================================
 
-function revoke_cert_form(){
+function revoke_cert_form($my_values=array('cert_serial'=>-99)){
 $config=$_SESSION['config'];
 ?>
 <p>
@@ -201,10 +201,12 @@ $my_index_handle = fopen($config['index'], "r") or die('Unable to open Index fil
 $pattern = '/(\D)\t(\d+[Z])\t(\d+[Z])?\t([a-z0-9]+)\t(\D+)\t(.+)/'; 
 while (!feof($my_index_handle)) {
    $this_line = rtrim(fgets($my_index_handle));
-   if (preg_match($pattern,$this_line,$matches))
+   if (preg_match($pattern,$this_line,$matches)) {
      if ($matches[1] == 'V') {
-       print "<option value=\"".$matches[4]."\">".$matches[4]."<BR>".$matches[6]."</option>\n";
+	   if ( $my_values['cert_serial'] == $matches[4]) $this_selected=" selected=\"selected\""; else $this_selected="";
+       print "<option value=\"".$matches[4]."\" $this_selected>".$matches[4].$matches[6]."</option>\n";
        }
+	 }
 }
 fclose($my_index_handle);
 ?>
@@ -323,11 +325,6 @@ else
 
 function view_cert($my_certfile) {
 $config=$_SESSION['config'];
-?>
-<h1>Viewing certificate request</h1>
-
-<?php
-print "<b>Loading Certificate from file...</b><br/>";
 if ($my_certfile == "zzTHISzzCAzz" )
   {
   $my_cert = openssl_x509_parse(file_get_contents($config['cacert']));
@@ -340,26 +337,44 @@ else
   $my_cert = openssl_x509_parse(file_get_contents($config['cert_path'].$my_base64_certfile));
   }
 
-$my_details = $my_cert['subject'];
-//print_r($my_cert);
-
-print "Done<br/><br/>\n";
-print "<BR><BR><BR>\n\n\n";
-?>
-<table  style="width:500px;" border=1>
-<tr><th width=200>Common Name<BR>(eg www.golf.local)</th><td><?PHP print $my_details['CN'];?></td></tr>
-<tr><th>Serial Number</th><td><?PHP print $my_cert['serialNumber'];?></td></tr>
-<tr><th>Contact Email Address</th><td><?PHP print $my_details['emailAddress'];?></td></tr>
-<tr><th>Organizational Unit Name</th><td><?PHP print $my_details['OU'];?></td></tr>
-<tr><th>Organization Name</th><td><?PHP print $my_details['O'];?></td></tr>
-<tr><th>City</th><td><?PHP print $my_details['L'];?></td></tr>
-<tr><th>State</th><td><?PHP print $my_details['ST'];?></td></tr>
-<tr><th>Country</th><td><?PHP print $my_details['C'];?></td></tr>
-</table>
-<?PHP
+print "<h1>Viewing certificate request</h1>";
+print get_cert_html($my_cert);
 print "\n\n<br><br><b>Completed.</b><br/>";
 }
 
-
+function get_cert_html($my_cert) {
+$this_html = "";
+$this_html .= "<table  style='width:500px;' border=1>";
+$this_html .= "<tr><td colspan=2 align=center><b>Name</TD></tr>";
+$this_html .= "<tr><td colspan=2 align=center>".$my_cert['name']."</tr>";
+$this_html .= "<tr><td colspan=2 align=center><b>Subject Details</TD></tr>";
+$this_html .= "<tr><th width=200>Common Name</th><td>".$my_cert['subject']['CN']."</td></tr>";
+$this_html .= "<tr><th>Contact Email Address</th><td>".$my_cert['subject']['emailAddress']."</td></tr>";
+$this_html .= "<tr><th>Organizational Unit Name</th><td>".$my_cert['subject']['OU']."</td></tr>";
+$this_html .= "<tr><th>Organization Name</th><td>".$my_cert['subject']['O']."</td></tr>";
+$this_html .= "<tr><th>City</th><td>".$my_cert['subject']['L']."</td></tr>";
+$this_html .= "<tr><th>State</th><td>".$my_cert['subject']['ST']."</td></tr>";
+$this_html .= "<tr><th>Country</th><td>".$my_cert['subject']['C']."</td></tr>";
+$this_html .= "<tr><td colspan=2 align=center><b>Issuer Details</TD></tr>";
+$this_html .= "<tr><th width=200>Common Name</th><td>".$my_cert['issuer']['CN']."</td></tr>";
+$this_html .= "<tr><th>Contact Email Address</th><td>".$my_cert['issuer']['emailAddress']."</td></tr>";
+$this_html .= "<tr><th>Organizational Unit Name</th><td>".$my_cert['issuer']['OU']."</td></tr>";
+$this_html .= "<tr><th>Organization Name</th><td>".$my_cert['issuer']['O']."</td></tr>";
+$this_html .= "<tr><th>City</th><td>".$my_cert['issuer']['L']."</td></tr>";
+$this_html .= "<tr><th>State</th><td>".$my_cert['issuer']['ST']."</td></tr>";
+$this_html .= "<tr><th>Country</th><td>".$my_cert['issuer']['C']."</td></tr>";
+$this_html .= "<tr><td colspan=2 align=center><b>Details</TD></tr>";
+$this_html .= "<tr><th>Hash</th><td>".$my_cert['hash']."</td></tr>";
+$this_html .= "<tr><th>Serial Number</th><td>".str_pad($my_cert['serialNumber'],4,'0', STR_PAD_LEFT)."</td></tr>";
+$this_html .= "<tr><th>Valid From</th><td>".$my_cert['validFrom']."</td></tr>";
+$this_html .= "<tr><th>Valid To</th><td>".$my_cert['validTo']."</td></tr>";
+$this_html .= "<tr><th>validFrom_time_t</th><td>".date('Y-m-d H:i:s',$my_cert['validFrom_time_t'])."</td></tr>";
+$this_html .= "<tr><th>validTo_time_t</th><td>".date('Y-m-d H:i:s',$my_cert['validTo_time_t'])."</td></tr>";
+$this_html .= "<tr><th>Signature Type SN</th><td>".$my_cert['signatureTypeSN']."</td></tr>";
+$this_html .= "<tr><th>Signature Type LN</th><td>".$my_cert['signatureTypeLN']."</td></tr>";
+$this_html .= "<tr><th>Signature Type NID</th><td>".$my_cert['signatureTypeNID']."</td></tr>";
+$this_html .= "</table>";
+return $this_html;
+}
 
 ?>

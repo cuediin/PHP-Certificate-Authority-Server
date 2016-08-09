@@ -54,8 +54,8 @@ while (list($key, $val) = each($config['blank_dn'])) {
 		 $my_csrfile = $my_csrfile.":";
  }
 $my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
-print $my_csrfile;
 $filename=base64_encode($my_csrfile);
+print $my_csrfile;
 if ($my_device_type=='ca_cert') {
   $client_keyFile = $config['cakey'];
   $client_reqFile = $config['req_path'].$filename.".pem";  
@@ -133,7 +133,7 @@ $config=$_SESSION['config'];
 <tr><th>Rename Extension to .pfx</th><td><input type="radio" name="pfx_ext" value="FALSE" checked /> No <input type="radio" name="cer_ext" value="PFX" /> Yes</td></tr>
 */
 ?>
-<tr><td width=100>Name:<td><select name="cert_name" rows="6">
+<tr><td width=100>Name:<td><select name="csr_name" rows="6">
 <option value="">--- Select a CSR
 <?php
 $dh = opendir($config['req_path']) or die('Unable to open ' . $config['req_path']);
@@ -388,8 +388,8 @@ $my_base64_csrfile=$name.$ext;
 
 <?php
 print "<b>Loading CSR from file...</b><br/>";
-$fp = fopen($config['req_path'].$my_base64_csrfile, "r") or die('Fatal: Error opening CSR file'.$my_base64_csrfile);
-$my_csr = fread($fp, filesize($config['req_path'].$my_base64_csrfile)) or die('Fatal: Error reading CSR file'.$my_base64_csrfile);
+$fp = fopen($config['req_path'].$my_base64_csrfile, "r") or die('Fatal: Error opening CSR file '.$my_base64_csrfile);
+$my_csr = fread($fp, filesize($config['req_path'].$my_base64_csrfile)) or die('Fatal: Error reading CSR file '.$my_base64_csrfile);
 fclose($fp) or die('Fatal: Error closing CSR file '.$my_base64_csrfile);
 print "Done<br/><br/>\n";
 print $my_csr;
@@ -398,14 +398,14 @@ $my_details=openssl_csr_get_subject($my_csr);
 $my_public_key_details=openssl_pkey_get_details(openssl_csr_get_public_key($my_csr));
 ?>
 <table  style="width: 90%;">
-<tr><th width=100>Common Name (eg www.golf.local)</th><td><?PHP print $my_details[CN];?></td></tr>
-<tr><th>Contact Email Address</th><td><?PHP print $my_details[emailAddress];?></td></tr>
-<tr><th>Organizational Unit Name</th><td><?PHP print $my_details[OU];?></td></tr>
-<tr><th>Organization Name</th><td><?PHP print $my_details[O];?></td></tr>
-<tr><th>City</th><td><?PHP print $my_details[L];?></td></tr>
-<tr><th>State</th><td><?PHP print $my_details[ST];?></td></tr>
-<tr><th>Country</th><td><?PHP print $my_details[C];?></td></tr>
-<tr><th>Key Size</th><td><?PHP print $my_public_key_details[bits];?></td></tr>
+<tr><th width=100>Common Name (eg www.golf.local)</th><td><?PHP print $my_details['CN'];?></td></tr>
+<tr><th>Contact Email Address</th><td><?PHP print $my_details['emailAddress'];?></td></tr>
+<tr><th>Organizational Unit Name</th><td><?PHP print $my_details['OU'];?></td></tr>
+<tr><th>Organization Name</th><td><?PHP print $my_details['O'];?></td></tr>
+<tr><th>City</th><td><?PHP print $my_details['L'];?></td></tr>
+<tr><th>State</th><td><?PHP print $my_details['ST'];?></td></tr>
+<tr><th>Country</th><td><?PHP print $my_details['C'];?></td></tr>
+<tr><th>Key Size</th><td><?PHP print $my_public_key_details['bits'];?></td></tr>
 </table>
 <?PHP
 print "\n\n<br><br><b>Completed.</b><br/>";
@@ -417,7 +417,7 @@ print "\n\n<br><br><b>Completed.</b><br/>";
 // ==================================================================================================================
 
 
-function sign_csr_form(){
+function sign_csr_form($my_values=array('csr_name'=>'::zz::')){
 $config=$_SESSION['config'];
 ?>
 <p>
@@ -428,7 +428,9 @@ $valid_files=0;
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['req_path'].$file) )  {
-	  if (!is_file($config['cert_path'].$file) ) {
+	  $name = base64_decode(substr($file, 0,strrpos($file,'.')));
+	  $ext = substr($file, strrpos($file,'.'));	
+	  if (!is_file($config['cert_path'].$file) or ($my_values['csr_name'] == "$name$ext") ) {
 	    $valid_files++;
 	  }
 	}
@@ -446,13 +448,15 @@ if ($valid_files) {
 <tr><td>Name:<td><select name="csr_name" rows="6">
 <option value="">--- Select a CSR
 <?php
+
 $dh = opendir($config['req_path']) or die('Unable to open  requests path');
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['req_path'].$file) )  {
-	  if (!is_file($config['cert_path'].$file) ) {
-		$name = base64_decode(substr($file, 0,strrpos($file,'.')));
-		$ext = substr($file, strrpos($file,'.'));
-		print "<option value=\"$name$ext\">$name$ext</option>\n";
+	  $name = base64_decode(substr($file, 0,strrpos($file,'.')));
+	  $ext = substr($file, strrpos($file,'.'));	
+	  if (!is_file($config['cert_path'].$file) or ($my_values['csr_name'] == "$name$ext") ) {
+        if ( $my_values['csr_name'] == "$name$ext") $this_selected=" selected=\"selected\""; else $this_selected="";
+		print "<option value=\"$name$ext\"".$this_selected.">$name$ext</option>\n";
 	  }
 	}
 }

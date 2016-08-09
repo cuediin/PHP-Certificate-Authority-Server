@@ -56,7 +56,7 @@ if ($is_writable) {
 
 function create_cert_store($my_certstore_path, $my_common_name) {
 $_SESSION['my_ca']=$my_common_name;
-include('settings.php');
+$config=update_config();
 print "Creating Directories...\n<br>";
 if (!is_dir($config['ca_path']))
   mkdir($config['ca_path'],0700,true) or die('Fatal: Unable to create CA folder');
@@ -103,5 +103,17 @@ print "Done\n<br><br>";
 print "Certstore files and folders created successfully.<br><br>\n";
 }
 
+/*
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+{
+    echo 'This server currently running PHP is using Windows!';
+    define("INCLUDE_DIR","c:\include");
+}
+else
+{
+    echo 'This server currently running PHP is not using Windows!';
+    define("INCLUDE_DIR", "/include");
+}
+*/
 
 ?>
