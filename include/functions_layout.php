@@ -19,7 +19,7 @@ print "<link rel=\"stylesheet\" href=\"layout/droppy.css\" type=\"text/css\">\n"
 print "<title>".$my_title."</title>\n";
 print "</head>\n";
 display_menu();
-if ($SHOW_CA_NAME==TRUE) print "<H2>".strtoupper($_SESSION['my_ca'])."</H2>\n";
+if (($SHOW_CA_NAME==TRUE) and isset($_SESSION['my_ca']) ) print "<H2>".strtoupper($_SESSION['my_ca'])."</H2>\n";
 }
 
 function printFooter($SHOW_CA_NAME=TRUE) {
