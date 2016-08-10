@@ -55,7 +55,7 @@ while (list($key, $val) = each($config['blank_dn'])) {
  }
 $my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
 $filename=base64_encode($my_csrfile);
-print $my_csrfile;
+print "CSR Filename:" . $my_csrfile;
 if ($my_device_type=='ca_cert') {
   $client_keyFile = $config['cakey'];
   $client_reqFile = $config['req_path'].$filename.".pem";  
@@ -110,7 +110,7 @@ $my_public_key_details=openssl_pkey_get_details(openssl_csr_get_public_key($my_c
 </table>
 <?PHP
 print "<h1>Client CSR and Key - Generated successfully</h1>";
-return $filestr.'.pem';
+return $my_csrfile.'.pem';
 }
 // ==================================================================================================================
 // =================== DOWNLOAD CSR =====================================================================================
