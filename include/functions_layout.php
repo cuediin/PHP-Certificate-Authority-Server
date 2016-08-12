@@ -51,10 +51,14 @@ $('tr.all_menu_class').contextMenu('all_menu', {
           border: '2px solid #000',
           },
 		  onShowMenu: function(e, menu) {
-            if ( ($(e.target).parent().data('has_csr') == 'TRUE')  || ($(e.target).parent().data('has_cert') == 'TRUE')  || ($(e.target).parent().data('has_pkcs12') == 'TRUE')  ) $('#no_actions', menu).remove();
-            if ($(e.target).parent().data('has_csr') == 'FALSE') $('#view_csr, #download_csr, #sign_csr', menu).remove();
-            if ($(e.target).parent().data('has_cert') == 'FALSE') $('#view_cert, #download_cert, #revoke_cert', menu).remove();
-            if ($(e.target).parent().data('has_pkcs12') == 'FALSE') $('#download_pkcs12', menu).remove();
+            var this_target = $(e.target).parent();
+            if (this_target.context.toString().indexOf('Font') !== -1) {this_target = this_target.parent();}
+            if ( (this_target.data('has_csr') == 'TRUE') || (this_target.data('has_cert') == 'TRUE') || (this_target.data('has_pkcs12') == 'TRUE') || (this_target.data('has_pkey') == 'TRUE')  ) $('#no_actions', menu).remove();
+            if (this_target.data('has_csr') == 'FALSE') $('#view_csr, #download_csr, #sign_csr', menu).remove();
+            if (this_target.data('has_cert') == 'FALSE') $('#view_cert, #download_cert, #revoke_cert', menu).remove();
+            if (this_target.data('has_pkcs12') == 'FALSE') $('#download_pkcs12', menu).remove();
+            if ( (this_target.data('has_pkcs12') == 'TRUE') || (this_target.data('has_cert') == 'FALSE') ) $('#convert_pkcs12', menu).remove();
+            if (this_target.data('has_pkey') == 'FALSE') $('#check_pkey_passphrase, #download_pkey', menu).remove();
             return menu;
         },
         bindings: {
@@ -78,9 +82,14 @@ $('tr.all_menu_class').contextMenu('all_menu', {
           'revoke_cert': function(t) {
             $.post( 'index.php',{menuoption:'revoke_cert_form',cert_serial:$(t).data('serial_no'),cert_id:t.id,print_content_only:'TRUE'},function(data){var win = window.open('','Revoke Certificate','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,top=50,left=50,width=800,height=600');win.document.write(data);});
           },
-          'check_key_passphrase': function(t) {
-            var url = '/phpca/index.php?menuoption=check_key_passphrase_form&key_name=' + t.id + '.pem';
-            window.location = url;
+          'check_pkey_passphrase': function(t) {
+            $.post( 'index.php',{menuoption:'check_key_passphrase_form',key_name:t.id+'.pem',print_content_only:'TRUE'},function(data){var win = window.open('','Check Key Passphrase','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,top=50,left=50,width=800,height=600');win.document.write(data);});
+          },
+          'download_pkey': function(t) {
+            $.post( 'index.php',{menuoption:'get_mod_private_form',key_name:t.id+'.pem',print_content_only:'TRUE'},function(data){var win = window.open('','Check Key Passphrase','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,top=50,left=50,width=800,height=600');win.document.write(data);});
+          },
+          'convert_pkcs12': function(t) {
+            $.post( 'index.php',{menuoption:'convert_cert_pkcs12_form',cert_name:t.id+'.pem',print_content_only:'TRUE'},function(data){var win = window.open('','Convert Certificate to PKCS12','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,top=50,left=50,width=800,height=600');win.document.write(data);});
           }
         }
       });

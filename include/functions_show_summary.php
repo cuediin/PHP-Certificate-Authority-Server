@@ -100,11 +100,11 @@ ksort($status_array);
 $my_grey_title="rgb(170,170,170)";
 $my_grey_body="rgb(215,215,215)";
 /*
-$my_ascii_yes="&#9745";
-$my_ascii_no="&#9746";
+$my_ascii_yes="&#9745;";
+$my_ascii_no="&#9746;";
 */
-$my_ascii_yes="&#10004";
-$my_ascii_no="&#10060";
+$my_ascii_yes="&#10004;";
+$my_ascii_no="&#10060;";
 print "<div class='contextMenu' id='all_menu'>
       <ul>
         <li id='no_actions'>No Actions Available</li>
@@ -114,7 +114,10 @@ print "<div class='contextMenu' id='all_menu'>
         <li id='view_cert'>View Certificate details</li>
         <li id='download_cert'>Download Cert</li>
         <li id='revoke_cert'>Revoke Cert</li>
+        <li id='convert_pkcs12'>Create PKCS12 from Certificate</li>
         <li id='download_pkcs12'>Download PKCS12</li>
+        <li id='check_pkey_passphrase'>Check Private Key Passphrase</li>
+        <li id='download_pkey'>Download Private Key</li>
       </ul>
     </div>\n";
 print "<TABLE width=100% border=1>\n";
@@ -131,41 +134,41 @@ $template_html = "";
 foreach ($status_array as $filename=>$this_array) {
   $table_array=array();
   if ($this_array['status']=="R") {
-    $table_array['status']['background']=$my_grey_body."\n";
-	$table_array['status']['font_colour']="red\n";
-	$table_array['status']['text']="Revoked\n";
+    $table_array['status']['background']=$my_grey_body;
+	$table_array['status']['font_colour']="red";
+	$table_array['status']['text']="Revoked";
 	$table_array['status']['menu']="is_revoked";
 	$table_array['status']['menu_id']=$this_array['unique'];
 	$table_array['status']['font_weight']="bold";
 	}
   elseif ($this_array['status']=="E") { 
-    $table_array['status']['background']=$my_grey_body."\n";
-	$table_array['status']['font_colour']="orange\n";
-	$table_array['status']['text']="Expired\n";
+    $table_array['status']['background']=$my_grey_body;
+	$table_array['status']['font_colour']="orange";
+	$table_array['status']['text']="Expired";
 	$table_array['status']['menu']="is_expired";
 	$table_array['status']['menu_id']=$this_array['unique'];
 	$table_array['status']['font_weight']="bold";
 	}
   elseif ($this_array['status']=="V") {
-    $table_array['status']['background']=$my_grey_body."\n";
-    $table_array['status']['font_colour']="green\n";
-    $table_array['status']['text']="Valid\n";
+    $table_array['status']['background']=$my_grey_body;
+    $table_array['status']['font_colour']="green";
+    $table_array['status']['text']="Valid";
     $table_array['status']['menu']="is_valid";
     $table_array['status']['menu_id']=$this_array['unique'];
 	$table_array['status']['font_weight']="bold";
     }
   else { 
-    $table_array['status']['background']=$my_grey_body."\n";
-    $table_array['status']['font_colour']="black\n";
-    $table_array['status']['text']="Unknown\n";
+    $table_array['status']['background']=$my_grey_body;
+    $table_array['status']['font_colour']="black";
+    $table_array['status']['text']="Unknown";
     $table_array['status']['menu']="is_unknown";
     $table_array['status']['menu_id']=$this_array['unique'];
 	$table_array['status']['font_weight']="normal";
     }
   
   if ($this_array['has_csr']==TRUE) {
-    $table_array['csr']['background']=$my_grey_body."\n";
-    $table_array['csr']['font_colour']="green\n";
+    $table_array['csr']['background']=$my_grey_body;
+    $table_array['csr']['font_colour']="green";
     $table_array['csr']['text']=$my_ascii_yes;
     $table_array['csr']['menu']="has_csr";
     $table_array['csr']['menu_id']=$this_array['unique'];
@@ -173,8 +176,8 @@ foreach ($status_array as $filename=>$this_array) {
 	$table_array['csr']['font_weight']="bold";
 	} 
   else { 
-    $table_array['csr']['background']=$my_grey_body."\n";
-    $table_array['csr']['font_colour']="red\n";
+    $table_array['csr']['background']=$my_grey_body;
+    $table_array['csr']['font_colour']="red";
     $table_array['csr']['text']=$my_ascii_no;
     $table_array['csr']['menu']="has_not_csr";
     $table_array['csr']['menu_id']=$this_array['unique'];
@@ -183,8 +186,8 @@ foreach ($status_array as $filename=>$this_array) {
 	}
 
   if ($this_array['has_cert']==TRUE) {
-    $table_array['cert']['background']=$my_grey_body."\n";
-    $table_array['cert']['font_colour']="green\n";
+    $table_array['cert']['background']=$my_grey_body;
+    $table_array['cert']['font_colour']="green";
     $table_array['cert']['text']=$my_ascii_yes;
     $table_array['cert']['menu']="has_cert";
     $table_array['cert']['menu_id']=$this_array['unique'];
@@ -192,8 +195,8 @@ foreach ($status_array as $filename=>$this_array) {
 	$table_array['cert']['font_weight']="bold";
 	} 
   else { 
-    $table_array['cert']['background']=$my_grey_body."\n";
-    $table_array['cert']['font_colour']="red\n";
+    $table_array['cert']['background']=$my_grey_body;
+    $table_array['cert']['font_colour']="red";
     $table_array['cert']['text']=$my_ascii_no;
     $table_array['cert']['menu']="has_not_cert";
     $table_array['cert']['menu_id']=$this_array['unique'];
@@ -202,8 +205,8 @@ foreach ($status_array as $filename=>$this_array) {
 	}
 	
   if ($this_array['has_pkcs12']==TRUE) {
-    $table_array['pkcs12']['background']=$my_grey_body."\n";
-    $table_array['pkcs12']['font_colour']="green\n";
+    $table_array['pkcs12']['background']=$my_grey_body;
+    $table_array['pkcs12']['font_colour']="green";
     $table_array['pkcs12']['text']=$my_ascii_yes;
     $table_array['pkcs12']['menu']="has_pkcs12";
     $table_array['pkcs12']['menu_id']=$this_array['unique'];
@@ -211,8 +214,8 @@ foreach ($status_array as $filename=>$this_array) {
 	$table_array['pkcs12']['font_weight']="bold";
 	} 
   else { 
-    $table_array['pkcs12']['background']=$my_grey_body."\n";
-    $table_array['pkcs12']['font_colour']="red\n";
+    $table_array['pkcs12']['background']=$my_grey_body;
+    $table_array['pkcs12']['font_colour']="red";
     $table_array['pkcs12']['text']=$my_ascii_no;
     $table_array['pkcs12']['menu']="has_not_pkcs12";
     $table_array['pkcs12']['menu_id']=$this_array['unique'];
@@ -221,8 +224,8 @@ foreach ($status_array as $filename=>$this_array) {
 	}
   
   if ($this_array['has_pkey']==TRUE) {
-    $table_array['pkey']['background']=$my_grey_body."\n";
-    $table_array['pkey']['font_colour']="green\n";
+    $table_array['pkey']['background']=$my_grey_body;
+    $table_array['pkey']['font_colour']="green";
     $table_array['pkey']['text']=$my_ascii_yes;
     $table_array['pkey']['menu']="has_pkey";
     $table_array['pkey']['menu_id']=$this_array['unique'];
@@ -230,8 +233,8 @@ foreach ($status_array as $filename=>$this_array) {
 	$table_array['pkey']['font_weight']="bold";
 	} 
   else { 
-    $table_array['pkey']['background']=$my_grey_body."\n";
-    $table_array['pkey']['font_colour']="red\n";
+    $table_array['pkey']['background']=$my_grey_body;
+    $table_array['pkey']['font_colour']="red";
     $table_array['pkey']['text']=$my_ascii_no;
     $table_array['pkey']['menu']="has_not_pkey";
     $table_array['pkey']['menu_id']=$this_array['unique'];
@@ -240,7 +243,7 @@ foreach ($status_array as $filename=>$this_array) {
 	}
     $this_menu = "::::::".$table_array['status']['menu'].":::".$table_array['csr']['menu'].":::".$table_array['cert']['menu'].":::".$table_array['pkcs12']['menu'].":::".$table_array['pkey']['menu'].":::";
   
-  print "<TR class=\"all_menu_class\" id=\"".$this_array['unique']."\"";
+  print "<TR class=\"all_menu_class\" id=\"".$this_array['unique']."\"\n";
   print " data-serial_no=\"".$this_array['dn']['serial_number']."\"";
   print " data-has_csr=\"".$this_array['has_csr_string']."\"";
   print " data-has_cert=\"".$this_array['has_cert_string']."\"";
@@ -255,7 +258,8 @@ foreach ($status_array as $filename=>$this_array) {
   print "<TD>".$this_array['dn']['st']."</TD>\n";
   print "<TD>".$this_array['dn']['c']."</TD>\n";
   foreach ($table_array as $this_cell=>$this_cell_array) {
-  print '<TD width=20px align=center style="font-weight:'.$this_cell_array['font_weight'].';background-color:'.$this_cell_array['background'].';"><font color='.$this_cell_array['font_colour'].'>'.$this_cell_array['text'].'</font></TD>';
+   print '<TD width=20px align=center style="font-weight:'.$this_cell_array['font_weight'].';background-color:'.$this_cell_array['background'].';"><font color='.$this_cell_array['font_colour'].'>'.$this_cell_array['text'].'</font></TD>';
+
   print "\n";
   }
   print "</TR>\n\n";

@@ -139,9 +139,14 @@ switch ($menuoption) {
     break;
 
     case "get_mod_private_form":
-        printHeader('Get Private Key');
-        get_mod_private_form();
-        printFooter();
+        if ($page_variables['print_content_only'] == FALSE)
+          printHeader('Get Private Key');
+		if (isset($page_variables['key_name']))
+          get_mod_private_form(array('key_name'=>$page_variables['key_name']));
+		else
+          get_mod_private_form();
+        if ($page_variables['print_content_only'] == FALSE)
+          printFooter();
     break;
 
     case "get_mod_private":
@@ -155,20 +160,22 @@ switch ($menuoption) {
     break;
 
     case "view_csr_details":
-        if ($page_variables['print_content_only']== FALSE)
+        if ($page_variables['print_content_only'] == FALSE)
           printHeader('View CSR Details');
         view_csr($page_variables['csr_name']);
-        if ($page_variables['print_content_only']== FALSE)
+        if ($page_variables['print_content_only'] == FALSE)
           printFooter();
     break;
 
     case "check_key_passphrase_form":
-        printHeader('Check CA Passphrase');
-		if (isset($page_variables['csr_name']))
-          check_key_passphrase_form(array('csr_name'=>$page_variables['key_name']));
+        if ($page_variables['print_content_only'] == FALSE)
+          printHeader('Check CA Passphrase');
+		if (isset($page_variables['key_name']))
+          check_key_passphrase_form(array('key_name'=>$page_variables['key_name']));
 		else
           check_key_passphrase_form();
-        printFooter();
+        if ($page_variables['print_content_only'] == FALSE)
+          printFooter();
     break;
 
     case "check_key_passphrase":
@@ -178,12 +185,14 @@ switch ($menuoption) {
     break;
 
     case "revoke_cert_form":
-	    if ($page_variables['print_content_only']== FALSE) printHeader('Revoke a Certificate');
+	    if ($page_variables['print_content_only'] == FALSE)
+		  printHeader('Revoke a Certificate');
 		if (isset($page_variables['cert_serial']))
           revoke_cert_form(array('cert_serial'=>$page_variables['cert_serial']));
 		else
           revoke_cert_form();
-        if ($page_variables['print_content_only']== FALSE) printFooter();
+        if ($page_variables['print_content_only'] == FALSE)
+		  printFooter();
     break;
 
     case "revoke_cert":
@@ -193,9 +202,14 @@ switch ($menuoption) {
     break;
 
     case "convert_cert_pkcs12_form":
-        printHeader('Convert Certificate to PKCS#12');
-        convert_cert_pkcs12_form();
-        printFooter();
+	    if ($page_variables['print_content_only'] == FALSE)
+          printHeader('Convert Certificate to PKCS#12');
+		if (isset($page_variables['cert_name']))
+          convert_cert_pkcs12_form(array('cert_name'=>$page_variables['cert_name']));
+		else
+          convert_cert_pkcs12_form();
+	    if ($page_variables['print_content_only'] == FALSE)
+          printFooter();
     break;
 
     case "convert_cert_pkcs12":

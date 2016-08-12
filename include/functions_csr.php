@@ -55,7 +55,7 @@ while (list($key, $val) = each($config['blank_dn'])) {
  }
 $my_csrfile=substr($my_csrfile,0,strrpos($my_csrfile,':'));
 $filename=base64_encode($my_csrfile);
-print "CSR Filename:" . $my_csrfile;
+print "CSR Filename : " . $my_csrfile."<BR>";
 if ($my_device_type=='ca_cert') {
   $client_keyFile = $config['cakey'];
   $client_reqFile = $config['req_path'].$filename.".pem";  

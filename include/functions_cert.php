@@ -86,7 +86,7 @@ else {
 // =================== CONVERT CERT PKCS12 =====================================================================================
 // ==================================================================================================================
 
-function convert_cert_pkcs12_form(){
+function convert_cert_pkcs12_form($my_values=array('cert_name'=>'::zz::')){
 $config=$_SESSION['config'];
 ?>
 <p>
@@ -120,7 +120,8 @@ while (($file = readdir($dh)) !== false) {
 	  if (is_file($config['key_path'].$file)  ) {
 		$name = base64_decode(substr($file, 0,strrpos($file,'.')));
 		$ext = substr($file, strrpos($file,'.'));
-		print "<option value=\"$name$ext\">$name$ext</option>\n";
+		if ( $my_values['cert_name'] == "$name$ext") $this_selected=" selected=\"selected\""; else $this_selected="";
+		print "<option value=\"$name$ext\"$this_selected>$name$ext</option>\n";
 	  }
 	}
 }

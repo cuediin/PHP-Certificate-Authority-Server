@@ -21,9 +21,9 @@ print "<option value=\"zzTHISzzCAzz\">This CA Key</option>\n";
 $dh = opendir($config['key_path']) or die('Unable to open ' . $config['key_path']);
 while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['key_path'].$file) )  {
-	    if ( $my_values['key_name'] == "$name$ext") $this_selected=" selected=\"selected\""; else $this_selected="";
 		$name = base64_decode(substr($file, 0,strrpos($file,'.')));
 		$ext = substr($file, strrpos($file,'.'));
+	    if ( $my_values['key_name'] == "$name$ext") $this_selected=" selected=\"selected\""; else $this_selected="";
 		print "<option value=\"$name$ext\"".$this_selected.">$name$ext</option>\n";
 	}
 }
@@ -137,7 +137,7 @@ download_header_code($this_key_name.".ssh.pub",$my_public_key,$application_type)
 // =================== GET PRIVATE KEY =====================================================================================
 // ==================================================================================================================
 
-function get_mod_private_form(){
+function get_mod_private_form($my_values=array('key_name'=>'::zz::')){
 $config=$_SESSION['config'];
 ?>
 <p>
@@ -170,7 +170,8 @@ while (($file = readdir($dh)) !== false) {
 	if ( ($file !== ".htaccess") && is_file($config['key_path'].$file) )  {
 		$name = base64_decode(substr($file, 0,strrpos($file,'.')));
 		$ext = substr($file, strrpos($file,'.'));
-		print "<option value=\"$name$ext\">$name$ext</option>\n";
+		if ( $my_values['key_name'] == "$name$ext") $this_selected=" selected=\"selected\""; else $this_selected="";
+		print "<option value=\"$name$ext\"$this_selected>$name$ext</option>\n";
 	}
 }
 ?>
